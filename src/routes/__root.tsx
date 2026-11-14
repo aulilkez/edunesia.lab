@@ -1,11 +1,18 @@
+import { createMiddleware } from "@tanstack/react-start";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import { evlogErrorHandler } from "evlog/nitro/v3";
 
 import appCss from "../styles/index.css?url";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
+const evlogMiddleware = createMiddleware().server(evlogErrorHandler);
+
 export const Route = createRootRoute({
+  server: {
+    middleware: [evlogMiddleware],
+  },
   head: () => ({
     meta: [
       {
